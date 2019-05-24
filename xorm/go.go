@@ -297,6 +297,11 @@ func tag(table *core.Table, col *core.Column) string {
 	res = append(res, nstr)
 
 	var tags []string
+
+	if len(res) > 0 {
+		tags = append(tags, "xorm:\""+strings.Join(res, " ")+"\"")
+	}
+
 	if genJson {
 		if include(ignoreColumnsJSON, col.Name) {
 			tags = append(tags, "json:\"-\"")
@@ -310,9 +315,6 @@ func tag(table *core.Table, col *core.Column) string {
 		} else {
 			tags = append(tags, "form:\""+col.Name+"\"")
 		}
-	}
-	if len(res) > 0 {
-		tags = append(tags, "xorm:\""+strings.Join(res, " ")+"\"")
 	}
 	if len(tags) > 0 {
 		return "`" + strings.Join(tags, " ") + "`"
