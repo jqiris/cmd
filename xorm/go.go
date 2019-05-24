@@ -297,6 +297,13 @@ func tag(table *core.Table, col *core.Column) string {
 	res = append(res, nstr)
 
 	var tags []string
+	if genForm {
+		if include(ignoreColumnsJSON, col.Name) {
+			tags = append(tags, "form:\"-\"")
+		} else {
+			tags = append(tags, "form:\""+col.Name+"\"")
+		}
+	}
 	if genJson {
 		if include(ignoreColumnsJSON, col.Name) {
 			tags = append(tags, "json:\"-\"")
