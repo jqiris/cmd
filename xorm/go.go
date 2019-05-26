@@ -316,6 +316,14 @@ func tag(table *core.Table, col *core.Column) string {
 			tags = append(tags, "form:\""+col.Name+"\"")
 		}
 	}
+
+	if genCsv {
+		if include(ignoreColumnsJSON, col.Name) {
+			tags = append(tags, "csv:\"-\"")
+		} else {
+			tags = append(tags, "csv:\""+col.Name+"\"")
+		}
+	}
 	if len(tags) > 0 {
 		return "`" + strings.Join(tags, " ") + "`"
 	} else {

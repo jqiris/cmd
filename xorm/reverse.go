@@ -53,6 +53,7 @@ func init() {
 var (
 	genJson                                      bool     = false
 	genForm                                     bool     = false
+	genCsv                                     bool     = false
 	ignoreColumnsJSON, created, updated, deleted []string = []string{}, []string{"created_at"}, []string{"updated_at"}, []string{"deleted_at"}
 )
 
@@ -155,6 +156,9 @@ func runReverse(cmd *Command, args []string) {
 		}
 		if j, ok := configs["genForm"]; ok {
 			genForm, err = strconv.ParseBool(j)
+		}
+		if j, ok := configs["genCsv"]; ok {
+			genCsv, err = strconv.ParseBool(j)
 		}
 
 		//[SWH|+]
