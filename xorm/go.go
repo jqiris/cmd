@@ -324,6 +324,13 @@ func tag(table *core.Table, col *core.Column) string {
 			tags = append(tags, "csv:\""+col.Name+"\"")
 		}
 	}
+
+	if genName {
+		tags = append(tags, "name:\""+col.Comment+"\"")
+	}
+	if genSltp {
+		tags = append(tags, "sqltype:\""+col.SQLType.Name+"\"")
+	}
 	if len(tags) > 0 {
 		return "`" + strings.Join(tags, " ") + "`"
 	} else {
