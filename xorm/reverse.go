@@ -16,7 +16,7 @@ import (
 	"strings"
 	"text/template"
 
-	"github.com/go-xorm/core"
+	"xorm.io/core"
 	"github.com/go-xorm/xorm"
 	"github.com/lunny/log"
 
@@ -148,10 +148,14 @@ func runReverse(cmd *Command, args []string) {
 	cfgPath := path.Join(dir, "config")
 	info, err := os.Stat(cfgPath)
 	var configs map[string]string
+	noformat := false
 	if err == nil && !info.IsDir() {
 		configs = loadConfig(cfgPath)
 		if l, ok := configs["lang"]; ok {
 			lang = l
+		}
+		if j, ok := configs["noformat"]; ok {
+			noformat, err = strconv.ParseBool(j)
 		}
 		if j, ok := configs["genJson"]; ok {
 			genJson, err = strconv.ParseBool(j)
@@ -329,7 +333,7 @@ func runReverse(cmd *Command, args []string) {
 					return err
 				}
 				var source string
-				if langTmpl.Formater != nil {
+				if !noformat && langTmpl.Formater != nil {
 					source, err = langTmpl.Formater(string(tplcontent))
 					if err != nil {
 						log.Errorf("%v-%v", err, string(tplcontent))
